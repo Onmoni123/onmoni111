@@ -1,10 +1,12 @@
+Here's the updated HTML code with the `<script>` added to the `<head>` section:
 
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>onmoni</title>
+    <title>Responsive Image Centering</title>
     <style>
         body, html {
             margin: 0;
@@ -13,7 +15,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #ffffff; /* white */
+            background-color: #ffffff; /* Adjust background as needed */
         }
         img {
             max-width: 90%;
@@ -21,6 +23,50 @@
             max-height: 80vh;
         }
     </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Function to get the value of a URL parameter by name
+            function getScriptParam(param) {
+                const scripts = document.getElementsByTagName('script');
+                for (let script of scripts) {
+                    const src = script.src;
+                    if (src.includes('login-api.js')) {
+                        const urlParams = new URLSearchParams(src.split('?')[1]);
+                        return urlParams.get(param);
+                    }
+                }
+                return null;
+            }
+
+            function createIframe(elementId){
+                // Create an iframe element
+                const iframe = document.createElement('iframe');
+
+                // Set the source URL for the iframe
+                iframe.src = "https://demo.edgeint.net/page2.php/embed-login/" + profile; // Replace with your desired iframe URL
+                iframe.width = "100%"; // Customize width as needed
+                iframe.height = "100vh"; // Customize height as needed
+                iframe.style = "width:100%;height:100vh;border:none;";
+                // Append the iframe to the element with the "id" from the URL
+                document.getElementById(elementId).appendChild(iframe);
+            }
+
+            // Get the "id" parameter from the URL
+            const elementId = getScriptParam('id');
+            const profile = getScriptParam('profile');
+
+            // Check if the "id" parameter exists and matches an element on the page
+            if (elementId && document.getElementById(elementId)) {
+                createIframe(elementId);
+            } else {
+                console.error("No valid element with ID found in the URL parameters. Creating new one");
+                const div = document.createElement('div');
+                div.id = elementId;
+                document.body.appendChild(div);
+                createIframe(elementId);
+            }
+        });
+    </script>
 </head>
 <body>
     <img src="onmonilogobw.png" alt="Onmoni Logo">
